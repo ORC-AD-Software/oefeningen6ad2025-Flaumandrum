@@ -36,7 +36,9 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvEinddatum"></param>
         public static void Toevoegen(String ontvNaam, DateTime ontvStartdatum, DateTime ontvEinddatum)
         { 
-            
+            _naamVakantie.Add(ontvNaam);
+            _startdatum.Add(ontvStartdatum);
+            _einddatum.Add(ontvEinddatum);
         }
 
         /// <summary>
@@ -57,6 +59,9 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvEinddatum"></param>
         public static void Aanpassen(int ontvIndex, String ontvNaam, DateTime ontvStartdatum, DateTime ontvEinddatum)
         {
+            _naamVakantie[ontvIndex] = ontvNaam;
+            _startdatum[ontvIndex] = ontvStartdatum;
+            _einddatum[ontvIndex] = ontvEinddatum;  
 
         }
 
@@ -66,7 +71,9 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvIndex"></param>
         public static void Verwijderen(int ontvIndex)
         {
-
+            _naamVakantie.RemoveAt(ontvIndex);
+            _startdatum.RemoveAt(ontvIndex);
+            _einddatum.RemoveAt(ontvIndex);
         }
 
         /// <summary>
