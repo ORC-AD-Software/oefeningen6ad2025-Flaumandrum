@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace _01_TomA_VolgendeVakantie
 {
-    public partial class Form1 : Form
+    public partial class FrmTonen : Form
     {
-        public Form1()
+        public FrmTonen()
         {
             InitializeComponent();
+        }
+
+        private void btnAnnuleren_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
