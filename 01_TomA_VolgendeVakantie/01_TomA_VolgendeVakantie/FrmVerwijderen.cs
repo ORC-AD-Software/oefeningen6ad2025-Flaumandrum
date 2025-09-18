@@ -21,5 +21,27 @@ namespace _01_TomA_VolgendeVakantie
         {
             Close();
         }
+
+        private void VulCmb()
+        {
+            // vraag de namen van de vakantie op
+            List<String> vakanties = Program.StuurVakantieDoor();
+
+            // Maak de cmb leeg
+            cmbKies.Items.Clear();
+
+            // vul de cmb met de vakantienamen
+            for (int i = 0; i < vakanties.Count(); i++)
+            {
+                cmbKies.Items.Add(vakanties[i]);
+            }
+
+
+        }
+
+        private void FrmVerwijderen_Load(object sender, EventArgs e)
+        {
+            VulCmb();
+        }
     }
 }

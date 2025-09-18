@@ -102,6 +102,7 @@
             this.btnAanpassen.TabIndex = 16;
             this.btnAanpassen.Text = "Aanpassen";
             this.btnAanpassen.UseVisualStyleBackColor = false;
+            this.btnAanpassen.Click += new System.EventHandler(this.btnAanpassen_Click);
             // 
             // txtNaam
             // 
@@ -147,10 +148,11 @@
             this.Controls.Add(this.cmbKies);
             this.Controls.Add(this.lblKies);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FrmAanpassen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Een vakantie aanpassen";
+            this.Load += new System.EventHandler(this.FrmAanpassen_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

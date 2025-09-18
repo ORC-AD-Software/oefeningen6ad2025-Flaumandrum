@@ -84,10 +84,11 @@
             this.Controls.Add(this.cmbKies);
             this.Controls.Add(this.lblKies);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FrmVerwijderen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Een vakantie verwijderen";
+            this.Load += new System.EventHandler(this.FrmVerwijderen_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

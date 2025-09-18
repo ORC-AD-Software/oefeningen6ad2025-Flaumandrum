@@ -35,10 +35,12 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvStartdatum"></param>
         /// <param name="ontvEinddatum"></param>
         public static void Toevoegen(String ontvNaam, DateTime ontvStartdatum, DateTime ontvEinddatum)
-        { 
+        {
             _naamVakantie.Add(ontvNaam);
             _startdatum.Add(ontvStartdatum);
             _einddatum.Add(ontvEinddatum);
+
+            SorteerList();
         }
 
         /// <summary>
@@ -61,7 +63,8 @@ namespace _01_TomA_VolgendeVakantie
         {
             _naamVakantie[ontvIndex] = ontvNaam;
             _startdatum[ontvIndex] = ontvStartdatum;
-            _einddatum[ontvIndex] = ontvEinddatum;  
+            _einddatum[ontvIndex] = ontvEinddatum;
+            SorteerList();
 
         }
 
@@ -84,8 +87,87 @@ namespace _01_TomA_VolgendeVakantie
         {
             String antwoord = "";
 
+            
+
+
             return antwoord;
         }
 
+        /// <summary>
+        /// Sorteert de lijsten op basis van de startdatum.
+        /// </summary>
+        private static void SorteerList()
+        {
+            // tijdelijke lijsten
+            List<String> gesorteerdeNamen = new List<String>();
+            List<DateTime> gesorteerdeStartDatums = new List<DateTime>();
+            List<DateTime> gesorteerdeEindDatums = new List<DateTime>();
+
+            // neem elke keer de volgende datum en zet hem op de juiste plaats in de tijdelijke lijsten
+            for (int i = 0; i < _startdatum.Count(); i++)
+            {
+                DateTime datum = _startdatum[i];
+                
+                for(int j = 0; j <= gesorteerdeStartDatums.Count(); j++)
+                {
+                    if(gesorteerdeStartDatums.Count() == 0)
+                    {
+                        // als er nog geen items in de gestorteerde lijst staan, voeg het gewoon toe
+                        gesorteerdeNamen.Add(_naamVakantie[i]);
+                        gesorteerdeStartDatums.Add(_startdatum[i]);
+                        gesorteerdeEindDatums.Add(_einddatum[i]);
+                        break;
+                    }
+                    // als alles overlopen is en de datum niet kleiner was 
+                    else if (j== gesorteerdeStartDatums.Count())
+                    {
+                        gesorteerdeNamen.Add(_naamVakantie[i]);
+                        gesorteerdeStartDatums.Add(_startdatum[i]);
+                        gesorteerdeEindDatums.Add(_einddatum[i]);
+                        break;
+                    }
+                    // als er een datum wordt gevonden die groter is
+                    else
+                    {
+                       if(datum < gesorteerdeStartDatums[j])
+                        {
+                            // voeg de nieuwe datum op de juiste plaats in
+                            gesorteerdeNamen.Insert(j, _naamVakantie[i]);
+                            gesorteerdeStartDatums.Insert(j, _startdatum[i]);
+                            gesorteerdeEindDatums.Insert(j, _einddatum[i]); 
+                            break;
+                        }
+                       
+                    }
+                }
+
+                
+
+            }
+            // Kopie de tijdelijke lijsten terug naar de originele lijsten
+            _naamVakantie = gesorteerdeNamen;
+            _startdatum = gesorteerdeStartDatums;
+            _einddatum = gesorteerdeEindDatums;
+
+        }
+
+        /// <summary>
+        /// Toont alle vakanties met hun start- en einddatum, gesorteerd op startdatum.
+        /// </summary>
+        /// <returns></returns>
+        public static String ToonAlle()
+        {
+            string antwoord = "";
+
+            SorteerList();
+
+            for (int i = 0; i < _naamVakantie.Count(); i++)
+            {
+                antwoord += $"{_naamVakantie[i]}: {_startdatum[i]:dd-MM-yyyy} tot {_einddatum[i]:dd-MM-yyyy} \n";
+            }
+
+            return antwoord;
+
+        }
     }
 }

@@ -73,6 +73,7 @@
             this.btnToevoegen.TabIndex = 8;
             this.btnToevoegen.Text = "Toevoegen";
             this.btnToevoegen.UseVisualStyleBackColor = false;
+            this.btnToevoegen.Click += new System.EventHandler(this.btnToevoegen_Click);
             // 
             // txtStart
             // 
@@ -126,7 +127,7 @@
             this.Controls.Add(this.lblStart);
             this.Controls.Add(this.lblNaam);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FrmToevoegencs";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vakanties toevoegen";

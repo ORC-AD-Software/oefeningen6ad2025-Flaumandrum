@@ -21,5 +21,10 @@ namespace _01_TomA_VolgendeVakantie
         {
             Close();
         }
+
+        private void FrmTonen_Load(object sender, EventArgs e)
+        {
+            txtToon.Text = Program.ToonAlle();
+        }
     }
 }
