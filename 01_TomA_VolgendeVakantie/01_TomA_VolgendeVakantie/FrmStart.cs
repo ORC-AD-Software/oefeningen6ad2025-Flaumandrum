@@ -40,7 +40,11 @@ namespace _01_TomA_VolgendeVakantie
 
         private void BtnAantalDagen_Click(object sender, EventArgs e)
         {
+            // vraag het aantal dagen op
+            String antwoord = Program.AantalDagen();
 
+            // toon het antwoord
+            MessageBox.Show(antwoord, "Aantal dagen", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnVerwijderen_Click(object sender, EventArgs e)
