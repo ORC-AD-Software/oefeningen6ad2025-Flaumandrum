@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vakantie.cs" />
     <EmbeddedResource Include="FrmAanpassen.resx">
       <DependentUpon>FrmAanpassen.cs</DependentUpon>
     </EmbeddedResource>
