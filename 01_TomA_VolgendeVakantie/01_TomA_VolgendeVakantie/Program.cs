@@ -87,8 +87,40 @@ namespace _01_TomA_VolgendeVakantie
         {
             String antwoord = "";
 
-            
+            // huidige datum
+            DateTime vandaag = DateTime.Now;
 
+            // vergelijk de datum van vandaag met de startdatums
+            for(int i = 0; i < _startdatum.Count(); i++)
+            {
+                // ga na of de vakantie al bezig is
+                if(vandaag >= _startdatum[i]&& vandaag <= _einddatum[i])
+                {
+                    antwoord = $"Het is momenteel vakantie: {_naamVakantie[i]}";
+                    break;
+                }
+
+                // ga na of de vakantie nog moet beginnen
+                else if (vandaag < _startdatum[i])
+                {
+                    // bereken het verschil tussen de vakantie en vandaag
+                    TimeSpan verschil = _startdatum[i] - vandaag;
+
+                    // geef het antoord terug 
+                    antwoord = $"Het is nog {verschil.Days} dagen tot {_naamVakantie[i]} begint.";
+
+                    break;
+                }
+                else
+                {
+                    if(i == _startdatum.Count() - 1)
+                    {
+                        antwoord = "Er zijn geen komende vakanties meer.";
+                    }
+                }
+
+                
+            }
 
             return antwoord;
         }

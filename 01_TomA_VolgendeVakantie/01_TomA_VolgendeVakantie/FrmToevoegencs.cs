@@ -36,6 +36,9 @@ namespace _01_TomA_VolgendeVakantie
                     // voeg de vakantie toe
                     Program.Toevoegen(txtNaam.Text, startDt, eindDt);
 
+                    // geef een bericht dat het gelukt is
+                    MessageBox.Show("De vakantie is toegevoegd.", "toevoegen gelukt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     // reset de velden
                     txtNaam.Text = "";
                     txtStart.Text = "";

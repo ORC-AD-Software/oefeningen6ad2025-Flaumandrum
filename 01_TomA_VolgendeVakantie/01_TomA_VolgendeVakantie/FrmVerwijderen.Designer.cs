@@ -54,6 +54,7 @@
             this.btnVerwijderen.TabIndex = 20;
             this.btnVerwijderen.Text = "Verwijderen";
             this.btnVerwijderen.UseVisualStyleBackColor = false;
+            this.btnVerwijderen.Click += new System.EventHandler(this.btnVerwijderen_Click);
             // 
             // cmbKies
             // 

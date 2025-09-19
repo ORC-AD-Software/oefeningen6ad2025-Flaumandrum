@@ -37,6 +37,9 @@ namespace _01_TomA_VolgendeVakantie
                     // pas de vakantie aan
                     Program.Aanpassen(cmbKies.SelectedIndex, txtNaam.Text, startDt, eindDt);
 
+                    // geef een bericht dat het gelukt is
+                    MessageBox.Show("De vakantie is aangepast.", "Aanpassen gelukt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     //reset de formulier
                     txtNaam.Text = "";
                     txtStart.Text = "";

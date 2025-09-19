@@ -43,5 +43,30 @@ namespace _01_TomA_VolgendeVakantie
         {
             VulCmb();
         }
+
+        private void btnVerwijderen_Click(object sender, EventArgs e)
+        {
+            // controleer of er iets is geselecteerd
+            if(cmbKies.SelectedIndex != -1)
+            {
+                // verwijder de vakantie op basis van de index
+                Program.Verwijderen(cmbKies.SelectedIndex);
+
+                // geef een bericht dat het gelukt is
+                MessageBox.Show("De vakantie is verwijderd.", "Verwijderen gelukt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // form resetten
+                cmbKies.SelectedIndex = -1;
+                cmbKies.Text = "";
+
+                // herlaad de cmb
+                VulCmb();
+            }
+            else
+            {
+                // geef een bericht dat er niets is geselecteerd
+                MessageBox.Show("Er is geen vakantie geselecteerd om te verwijderen.", "Verwijderen mislukt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
