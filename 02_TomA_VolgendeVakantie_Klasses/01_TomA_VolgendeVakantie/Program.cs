@@ -20,40 +20,40 @@ namespace _01_TomA_VolgendeVakantie
         }
 
         // velden
-        static List<String> _naamVakantie = new List<String>();
-        static List<DateTime> _startdatum = new List<DateTime>();
-        static List<DateTime> _einddatum = new List<DateTime>();
-
-
-
+        static List<Vakantie> _vakanties = new List<Vakantie>();
+        
         // functies
 
         /// <summary>
-        /// Ontvangt de naam, startdatum en einddatum van een vakantie en voegt deze toe aan de lijsten.
+        /// Ontvangt de naam, startdatum en einddatum van een vakantie 
+        /// maakt er een object van en voegt dit object toe aan de lijst.
         /// </summary>
         /// <param name="ontvNaam"></param>
         /// <param name="ontvStartdatum"></param>
         /// <param name="ontvEinddatum"></param>
         public static void Toevoegen(String ontvNaam, DateTime ontvStartdatum, DateTime ontvEinddatum)
         {
-            _naamVakantie.Add(ontvNaam);
-            _startdatum.Add(ontvStartdatum);
-            _einddatum.Add(ontvEinddatum);
+            // maak een nieuw vakantie object aan
+            Vakantie nieuweVakantie = new Vakantie(ontvNaam, ontvStartdatum, ontvEinddatum);
+
+            // voeg de gegevens toe aan de lijsten
+            _vakanties.Add(nieuweVakantie);
 
             SorteerList();
         }
 
         /// <summary>
-        /// Stuurt de lijst met vakantienamen terug.
+        /// Stuurt de lijst met vakanties terug.
         /// </summary>
         /// <returns></returns>
-        public static List<String> StuurVakantieDoor()
+        public static List<Vakantie> StuurVakantieDoor()
         {
-            return _naamVakantie;
+            return _vakanties;
         }
 
         /// <summary>
-        /// Past de naam, startdatum en einddatum van een vakantie aan op basis van de meegegeven index.
+        /// Maakt van de naam, startdatum en einddatum een object van Vakantie aan 
+        /// en overschrijft hiermee het oude object in de lijst, via de index.
         /// </summary>
         /// <param name="ontvIndex"></param>
         /// <param name="ontvNaam"></param>
@@ -61,9 +61,12 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvEinddatum"></param>
         public static void Aanpassen(int ontvIndex, String ontvNaam, DateTime ontvStartdatum, DateTime ontvEinddatum)
         {
-            _naamVakantie[ontvIndex] = ontvNaam;
-            _startdatum[ontvIndex] = ontvStartdatum;
-            _einddatum[ontvIndex] = ontvEinddatum;
+            // maak een nieuw vakantie object aan
+            Vakantie nieuweVakantie = new Vakantie(ontvNaam, ontvStartdatum, ontvEinddatum);
+
+            // overschrijf het vakantie object in de lijst met dit nieuwe object
+            _vakanties[ontvIndex] = nieuweVakantie;
+
             SorteerList();
 
         }
@@ -74,9 +77,8 @@ namespace _01_TomA_VolgendeVakantie
         /// <param name="ontvIndex"></param>
         public static void Verwijderen(int ontvIndex)
         {
-            _naamVakantie.RemoveAt(ontvIndex);
-            _startdatum.RemoveAt(ontvIndex);
-            _einddatum.RemoveAt(ontvIndex);
+            _vakanties.RemoveAt(ontvIndex);
+            
         }
 
         /// <summary>
@@ -91,29 +93,35 @@ namespace _01_TomA_VolgendeVakantie
             DateTime vandaag = DateTime.Now;
 
             // vergelijk de datum van vandaag met de startdatums
-            for(int i = 0; i < _startdatum.Count(); i++)
+            for(int i = 0; i < _vakanties.Count(); i++)
             {
+                // vraag of de datum in de vakantie valt, doe dit via 
+                // de methode in de klasse Vakantie
+                sbyte uitkomst = _vakanties[i].ValtDatumInVakantie(vandaag);
+
                 // ga na of de vakantie al bezig is
-                if(vandaag >= _startdatum[i]&& vandaag <= _einddatum[i])
+                if (uitkomst == 0)
                 {
-                    antwoord = $"Het is momenteel vakantie: {_naamVakantie[i]}";
+                    // Vraag de naam op van de vakantie via de property in de klasse Vakantie
+                    antwoord = $"Het is momenteel vakantie: {_vakanties[i].PropVakantienaam}";
                     break;
                 }
 
                 // ga na of de vakantie nog moet beginnen
-                else if (vandaag < _startdatum[i])
+                else if (uitkomst == -1)
                 {
                     // bereken het verschil tussen de vakantie en vandaag
-                    TimeSpan verschil = _startdatum[i] - vandaag;
+                    int verschil = _vakanties[i].Aantaldagen(vandaag);
 
                     // geef het antoord terug 
-                    antwoord = $"Het is nog {verschil.Days} dagen tot {_naamVakantie[i]} begint.";
+                    antwoord = $"Het is nog {verschil} dagen tot {_vakanties[i].PropVakantienaam} begint.";
 
                     break;
                 }
                 else
                 {
-                    if(i == _startdatum.Count() - 1)
+                    // Als alle vakanties overlopen zijn, geef dan een bericht terug
+                    if (i == _vakanties.Count() - 1)
                     {
                         antwoord = "Er zijn geen komende vakanties meer.";
                     }
@@ -130,56 +138,52 @@ namespace _01_TomA_VolgendeVakantie
         /// </summary>
         private static void SorteerList()
         {
-            // tijdelijke lijsten
-            List<String> gesorteerdeNamen = new List<String>();
-            List<DateTime> gesorteerdeStartDatums = new List<DateTime>();
-            List<DateTime> gesorteerdeEindDatums = new List<DateTime>();
+            // tijdelijke lijst
+            List<Vakantie> gesorteerdeVakanties = new List<Vakantie>();
+           
 
             // neem elke keer de volgende datum en zet hem op de juiste plaats in de tijdelijke lijsten
-            for (int i = 0; i < _startdatum.Count(); i++)
+            for (int i = 0; i < _vakanties.Count(); i++)
             {
-                DateTime datum = _startdatum[i];
-                
-                for(int j = 0; j <= gesorteerdeStartDatums.Count(); j++)
+                // Neem de stratdatum van de vakantie op index i
+                DateTime datum = _vakanties[i].PropStartDatum;
+
+                // loop door de tijdelijke lijst om de juiste plaats te vinden
+                for (int j = 0; j <= gesorteerdeVakanties.Count(); j++)
                 {
-                    if(gesorteerdeStartDatums.Count() == 0)
+                    if(gesorteerdeVakanties.Count() == 0)
                     {
                         // als er nog geen items in de gestorteerde lijst staan, voeg het gewoon toe
-                        gesorteerdeNamen.Add(_naamVakantie[i]);
-                        gesorteerdeStartDatums.Add(_startdatum[i]);
-                        gesorteerdeEindDatums.Add(_einddatum[i]);
+                        gesorteerdeVakanties.Add(_vakanties[i]);
+                        
                         break;
                     }
                     // als alles overlopen is en de datum niet kleiner was 
-                    else if (j== gesorteerdeStartDatums.Count())
+                    else if (j== gesorteerdeVakanties.Count())
                     {
-                        gesorteerdeNamen.Add(_naamVakantie[i]);
-                        gesorteerdeStartDatums.Add(_startdatum[i]);
-                        gesorteerdeEindDatums.Add(_einddatum[i]);
+                        // Mag de vakantie gewoon achteraan toegevoegd worden
+                        gesorteerdeVakanties.Add(_vakanties[i]);
+                        
                         break;
                     }
-                    // als er een datum wordt gevonden die groter is
+                    
                     else
                     {
-                       if(datum < gesorteerdeStartDatums[j])
+                        // als er een datum van de te sorteren vakantie
+                        // kleiner is dan de vakantie in de reed gesorteerde lijst
+                        if (gesorteerdeVakanties[j].IsOntvDtKleiner(datum))
                         {
-                            // voeg de nieuwe datum op de juiste plaats in
-                            gesorteerdeNamen.Insert(j, _naamVakantie[i]);
-                            gesorteerdeStartDatums.Insert(j, _startdatum[i]);
-                            gesorteerdeEindDatums.Insert(j, _einddatum[i]); 
+                            // dan moet de te sorteren vakantie worden 
+                            // tussen gevoegd op de juiste plaats
+                            gesorteerdeVakanties.Insert(j, _vakanties[i]);
+                             
                             break;
-                        }
-                       
+                        }                       
                     }
                 }
-
-                
-
             }
             // Kopie de tijdelijke lijsten terug naar de originele lijsten
-            _naamVakantie = gesorteerdeNamen;
-            _startdatum = gesorteerdeStartDatums;
-            _einddatum = gesorteerdeEindDatums;
+            _vakanties = gesorteerdeVakanties;
 
         }
 
