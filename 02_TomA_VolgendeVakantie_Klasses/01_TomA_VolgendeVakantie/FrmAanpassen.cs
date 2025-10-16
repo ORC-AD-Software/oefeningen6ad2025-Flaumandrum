@@ -74,17 +74,16 @@ namespace _01_TomA_VolgendeVakantie
         private void VulCmb()
         {
             // vraag de namen van de vakantie op
-            List<String> vakanties = Program.StuurVakantieDoor();
+            List<Vakantie> vakanties = Program.StuurVakantieDoor();
 
             // Maak de cmb leeg
             cmbKies.Items.Clear();
 
-            // vul de cmb met de vakantienamen
+            // vul de cmb met de vakantienamen van de verschillede vakatieobjecten
             for (int i = 0; i < vakanties.Count(); i++)
             {
-                cmbKies.Items.Add(vakanties[i]);
+                cmbKies.Items.Add(vakanties[i].PropVakantienaam);
             }
-
 
         }
     }

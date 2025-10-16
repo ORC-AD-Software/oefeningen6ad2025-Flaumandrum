@@ -197,9 +197,9 @@ namespace _01_TomA_VolgendeVakantie
 
             SorteerList();
 
-            for (int i = 0; i < _naamVakantie.Count(); i++)
+            for (int i = 0; i < _vakanties.Count(); i++)
             {
-                antwoord += $"{_naamVakantie[i]}: {_startdatum[i]:dd-MM-yyyy} tot {_einddatum[i]:dd-MM-yyyy} \n";
+                antwoord += $"{_vakanties[i].AlleGegevens()}";
             }
 
             return antwoord;
