@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PersistentNaarDB.cs" />
     <Compile Include="Speler.cs" />
     <Compile Include="SpelFormulier.cs">
       <SubType>Form</SubType>
