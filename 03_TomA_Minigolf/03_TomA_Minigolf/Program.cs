@@ -119,6 +119,9 @@ namespace _03_TomA_Minigolf
         /// <returns></returns>
         static public String ToonGegevens()
         {
+            // Laat de lijst vullen 
+            VulLijst();
+
             string antwoord = "";
 
             foreach (Speler s in _spelers)

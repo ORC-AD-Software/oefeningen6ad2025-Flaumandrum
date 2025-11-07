@@ -17,6 +17,10 @@ namespace _03_TomA_Minigolf
             InitializeComponent();
         }
 
+        // Velden 
+        byte _actieveSpelerIndex = 0;
+
+
         private void Uiterlijk(String thema)
         {
             if (thema == "Startform")
@@ -115,6 +119,14 @@ namespace _03_TomA_Minigolf
 
                 lblVoorn.Visible = true;
                 lblVoorn.Text = "";
+                // Haal de spelerlijst op
+                List<Speler> actieveSpeler = Program.StuurSpelersDoor();
+                // Zet de naam van de eerste speler in het label
+                lblVoorn.Text = actieveSpeler[0].VolledigeNaam();
+                // sla het id op van de actieve speler 
+                _actieveSpelerIndex = 0;
+
+                
                 lblVoorn.Font = new Font(lblVoorn.Font, FontStyle.Bold);
                 lblVoorn.Location = new Point(24, 358);
 
@@ -133,7 +145,7 @@ namespace _03_TomA_Minigolf
 
 
                 btnActie.Visible = true;
-                btnActie.Text = "Toevoegen";
+                btnActie.Text = "Voeg slagen toe";
                 btnActie.Location = new Point(24, 550);
                 btnAnnuleren.Visible = true;
                 btnAnnuleren.Location = new Point(24, 600);
@@ -146,6 +158,9 @@ namespace _03_TomA_Minigolf
         private void SpelFormulier_Load(object sender, EventArgs e)
         {
             Uiterlijk("Startform");
+
+            // pas  het rechterdeel van het formulier aan met de nieuwe gegevens
+            txtToon.Text = Program.ToonGegevens();
         }
 
         private void btnAfsluiten_Click(object sender, EventArgs e)
@@ -161,6 +176,7 @@ namespace _03_TomA_Minigolf
         private void btnToev_Click(object sender, EventArgs e)
         {
             Uiterlijk("Toevoegen");
+
         }
 
         private void btnAnnuleren_Click(object sender, EventArgs e)
@@ -178,11 +194,14 @@ namespace _03_TomA_Minigolf
         {
             Uiterlijk("Verwijderen");
             VulCmb();
+
+
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
             Uiterlijk("Startspel");
+
         }
 
         private void btnNieuwSpel_Click(object sender, EventArgs e)
@@ -250,9 +269,58 @@ namespace _03_TomA_Minigolf
             }
             else if (btnActie.Text == "Verwijderen")
             {
-               
+                if (cmbKies.SelectedIndex != -1)
+                {
+                    // haal de gegevens uit de tekstvakken en stuur ze door naar de business (program.cs)
+                    Program.Verwijderen(cmbKies.SelectedIndex);
+
+                    // pas  het rechterdeel van het formulier aan met de nieuwe gegevens
+                    txtToon.Text = Program.ToonGegevens();
+
+                    //reset velden
+                    cmbKies.SelectedIndex = -1;
+                    cmbKies.Text = "";
+                    VulCmb();
+
+                }
+
             }
-            
+            else if (btnActie.Text == "Voeg slagen toe")
+            {
+
+                if (txtFamN.Text != "")
+                {
+                    try
+                    {
+                        SByte extraSlagen = SByte.Parse(txtFamN.Text);
+
+                        // stuur de extra slagen met de index van de speler door naar de business
+                        Program.PasScoreAan(_actieveSpelerIndex, extraSlagen);
+
+                        // begeleid de gebruiker
+                        MessageBox.Show("Slagen toegevoegd!", "Great success!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // pas  het rechterdeel van het formulier aan met de nieuwe gegevens
+                        txtToon.Text = Program.ToonGegevens();
+
+                        // reset veld
+                        txtFamN.Text = "";
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("U gaf geen geldig getal in!", "Error!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+
+                }
+                else 
+                {
+                    MessageBox.Show("U gaf geen aantal extra slagen in!", "Error!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
+            }
         }
 
         /// <summary>
@@ -271,6 +339,50 @@ namespace _03_TomA_Minigolf
             {
                 cmbKies.Items.Add(speler.VolledigeNaam());
             }
+        }
+
+        private void btnVolgende_Click(object sender, EventArgs e)
+        {
+            // Haal de spelerlijst op
+            List<Speler> actieveSpeler = Program.StuurSpelersDoor();
+
+            // check of we aan het einde van de lijst zijn
+            if (_actieveSpelerIndex == actieveSpeler.Count - 1)
+            {
+                // Indien aan het einde, ga terug naar het begin
+                _actieveSpelerIndex = 0;
+            }
+            else
+            {
+                _actieveSpelerIndex += 1;
+            }
+            
+
+            // Zet de naam van de eerste speler in het label
+            lblVoorn.Text = actieveSpeler[_actieveSpelerIndex].VolledigeNaam();
+
+        }
+
+        private void btnVorige_Click(object sender, EventArgs e)
+        {
+            // Haal de spelerlijst op
+            List<Speler> actieveSpeler = Program.StuurSpelersDoor();
+
+            // check of we aan het begin van de lijst zijn
+            if (_actieveSpelerIndex == 0)
+            {
+                // Indien aan het einde, ga terug naar het einde
+                _actieveSpelerIndex = (Byte)(actieveSpeler.Count - 1);
+            }
+            else
+            {
+                _actieveSpelerIndex --;
+            }
+
+
+            // Zet de naam van de eerste speler in het label
+            lblVoorn.Text = actieveSpeler[_actieveSpelerIndex].VolledigeNaam();
+
         }
     }
 }
