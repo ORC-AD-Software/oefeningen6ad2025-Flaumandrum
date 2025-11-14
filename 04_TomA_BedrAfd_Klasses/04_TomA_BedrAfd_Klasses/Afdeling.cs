@@ -8,13 +8,18 @@ namespace _04_TomA_BedrAfd_Klasses
 {
     public class Afdeling
     {
-        // Velden
-        int _id = 0;
-        string _afdelingsnaam = "";
-        string _afdelingshoofd = "";
-        List<Medewerker> _medewerkers = new List<Medewerker>();
+        // Velden + properties
+        int _id { get;  }
+        string _afdelingsnaam { get; set; }
+        string _afdelingshoofd { get; set; }
+        List<Medewerker> _medewerkers { get; set; }
 
-        // Properties
+        /*public string PropAfdelingsnaam
+        {
+            get { return _afdelingsnaam; }
+            set { _afdelingsnaam = value; }
+        }
+        */
 
         // Methoden
         /// <summary>

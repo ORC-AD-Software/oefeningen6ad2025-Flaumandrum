@@ -8,29 +8,44 @@ namespace _04_TomA_BedrAfd_Klasses
 {
     public class Medewerker
     {
-        // Velden 
-        int _id = 0;
-        string _voornaam = "";
-        string _achternaam = "";
-        string statuut= "";
-        Afdeling _afdeling = new Afdeling();
-
-        // Properties
-
+        // Velden + properties
+        int _id { get; }
+        string _voornaam { get; set; }
+        string _achternaam { get; set; }
+        string statuut { get; set; }
+        Afdeling _afdeling { get; set; }
 
         // Methoden
+        /// <summary>
+        /// geeft de afdeling en hoofd van de afdeling terug
+        /// </summary>
+        /// <returns></returns>
         public string GetAfdelingEnHoofd() 
         { 
             return _afdeling.GetGegevensAfdeling();
         }
+        /// <summary>
+        /// geeft de volledige naam van de medewerker terug
+        /// </summary>
+        /// <returns></returns>
         public string GetVolledigeNaam()
         {
             return $"{_voornaam} {_achternaam}";
         }
+
+        /// <summary>
+        ///  geeft de naam en statuut van de medewerker terug
+        /// </summary>
+        /// <returns></returns>
         public string GetNaamStatuut()
         {
-            return $"{_voornaam} {_achternaam} - {statuut}";
+            return $"{GetVolledigeNaam()} - {statuut}";
         }
+
+        /// <summary>
+        ///  geeft alle gegevens van de medewerker terug
+        /// </summary>
+        /// <returns></returns>
         public string GetAlleGegevensMedewerker()
         {
             String antwoord = "";
