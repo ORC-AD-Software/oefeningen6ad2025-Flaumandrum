@@ -46,5 +46,27 @@ namespace _04_TomA_BedrAfd_Klasses
         }
 
         // Constructors
+        public Afdeling() { }
+
+        public Afdeling(string afdNaam, string afdHoofd)
+        {
+            _afdelingsnaam = afdNaam;
+            _afdelingshoofd = afdHoofd;
+        }
+
+        public Afdeling(string afdNaam, string afdHoofd, List<Medewerker> medewAfd)
+        {
+            _afdelingsnaam = afdNaam;
+            _afdelingshoofd = afdHoofd;
+            _medewerkers = medewAfd;
+        }
+
+        public Afdeling(int id, string afdNaam, string afdHoofd, List<Medewerker> medewAfd)
+        {
+            _id = id;
+            _afdelingsnaam = afdNaam;
+            _afdelingshoofd = afdHoofd;
+            _medewerkers = medewAfd;
+        }
     }
 }

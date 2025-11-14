@@ -12,7 +12,7 @@ namespace _04_TomA_BedrAfd_Klasses
         int _id { get; }
         string _voornaam { get; set; }
         string _achternaam { get; set; }
-        string statuut { get; set; }
+        string _statuut { get; set; }
         Afdeling _afdeling { get; set; }
 
         // Methoden
@@ -39,7 +39,7 @@ namespace _04_TomA_BedrAfd_Klasses
         /// <returns></returns>
         public string GetNaamStatuut()
         {
-            return $"{GetVolledigeNaam()} - {statuut}";
+            return $"{GetVolledigeNaam()} - {_statuut}";
         }
 
         /// <summary>
@@ -56,6 +56,40 @@ namespace _04_TomA_BedrAfd_Klasses
         }
 
         // Constructors
+        public Medewerker() { }
 
+        public Medewerker(string voornaam, string achternaam)
+        {
+            _voornaam = voornaam;
+            _achternaam = achternaam;
+
+        }
+
+        public Medewerker(string voornaam, string achternaam, string statuut)
+        {
+
+            _voornaam = voornaam;
+            _achternaam = achternaam;
+            _statuut = statuut;
+            
+        }
+
+        public Medewerker( string voornaam, string achternaam, string statuut, Afdeling afdeling)
+        {
+           
+            _voornaam = voornaam;
+            _achternaam = achternaam;
+            _statuut = statuut;
+            _afdeling = afdeling;
+        }
+
+        public Medewerker (int id, string voornaam, string achternaam, string statuut, Afdeling afdeling)
+        {
+            _id = id;
+            _voornaam = voornaam;
+            _achternaam = achternaam;
+            _statuut = statuut;
+            _afdeling = afdeling;
+        }
     }
 }
