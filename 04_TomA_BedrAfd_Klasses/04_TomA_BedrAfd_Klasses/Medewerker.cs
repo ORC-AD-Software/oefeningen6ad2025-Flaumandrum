@@ -9,11 +9,11 @@ namespace _04_TomA_BedrAfd_Klasses
     public class Medewerker
     {
         // Velden + properties
-        int _id { get; }
-        string _voornaam { get; set; }
-        string _achternaam { get; set; }
-        string _statuut { get; set; }
-        Afdeling _afdeling { get; set; }
+        public int _id { get; }
+        public string _voornaam { get; set; }
+        public string _achternaam { get; set; }
+        public string _statuut { get; set; }
+        public Afdeling _afdeling { get; set; }
 
         // Methoden
         /// <summary>
@@ -72,6 +72,15 @@ namespace _04_TomA_BedrAfd_Klasses
             _achternaam = achternaam;
             _statuut = statuut;
             
+        }
+
+        public Medewerker(int id, string voornaam, string achternaam, string statuut)
+        {
+            _id = id;
+            _voornaam = voornaam;
+            _achternaam = achternaam;
+            _statuut = statuut;
+
         }
 
         public Medewerker( string voornaam, string achternaam, string statuut, Afdeling afdeling)

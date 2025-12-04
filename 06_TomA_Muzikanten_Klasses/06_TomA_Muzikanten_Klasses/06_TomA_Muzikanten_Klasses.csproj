@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{176483E7-201F-436E-9A9B-224BE727C060}</ProjectGuid>
+    <ProjectGuid>{EADFCC45-F2AC-4260-96E4-A210A08FEF42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_04_TomA_BedrAfd_Klasses</RootNamespace>
-    <AssemblyName>04_TomA_BedrAfd_Klasses</AssemblyName>
+    <RootNamespace>_06_TomA_Muzikanten_Klasses</RootNamespace>
+    <AssemblyName>06_TomA_Muzikanten_Klasses</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Afdeling.cs" />
-    <Compile Include="Medewerker.cs" />
-    <Compile Include="MijnDB.cs" />
+    <Compile Include="Instrument.cs" />
+    <Compile Include="Leerling.cs" />
+    <Compile Include="MijnDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

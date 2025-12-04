@@ -9,10 +9,10 @@ namespace _04_TomA_BedrAfd_Klasses
     public class Afdeling
     {
         // Velden + properties
-        int _id { get;  }
-        string _afdelingsnaam { get; set; }
-        string _afdelingshoofd { get; set; }
-        List<Medewerker> _medewerkers { get; set; }
+        public int _id { get;  }
+        public string _afdelingsnaam { get; set; }
+        public string _afdelingshoofd { get; set; }
+        public List<Medewerker> _medewerkers { get; set; }
 
         /*public string PropAfdelingsnaam
         {
@@ -50,6 +50,13 @@ namespace _04_TomA_BedrAfd_Klasses
 
         public Afdeling(string afdNaam, string afdHoofd)
         {
+            _afdelingsnaam = afdNaam;
+            _afdelingshoofd = afdHoofd;
+        }
+
+        public Afdeling(int id, string afdNaam, string afdHoofd)
+        {
+            _id = id;
             _afdelingsnaam = afdNaam;
             _afdelingshoofd = afdHoofd;
         }

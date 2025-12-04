@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Klasses_BedrAfd">
-      <HintPath>G:\Mijn Drive\Benedictuspoort\1. Opbouw_Schooljaar_IB\4. 6des\Cursus_Software\2. OOP\Oefening_1opVeel\Project_Bedrijfsafdeling\ClassLibrary\Klasses_BedrAfd\Klasses_BedrAfd\bin\Debug\Klasses_BedrAfd.dll</HintPath>
+    <Reference Include="04_TomA_BedrAfd_Klasses">
+      <HintPath>..\..\04_TomA_BedrAfd_Klasses\04_TomA_BedrAfd_Klasses\bin\Debug\04_TomA_BedrAfd_Klasses.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
