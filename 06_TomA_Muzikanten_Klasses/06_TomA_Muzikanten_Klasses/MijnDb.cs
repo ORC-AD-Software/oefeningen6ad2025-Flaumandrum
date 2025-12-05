@@ -179,9 +179,15 @@ namespace _06_TomA_Muzikanten_Klasses
             // daarna de link met instrumenten toevoegen
             if (instrs.Count() != 0)
             {
+                foreach (Instrument i in instrs)
+                {
+                    string sqlLink = "INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                     $"VALUES ({i._id}, {ontvLln._id})";
+                    OleDbCommand commandLink = new OleDbCommand(sqlLink, _mijnconnectie);
+                    commandLink.ExecuteNonQuery();
+                }
+
             }
-
-
 
             _mijnconnectie.Close();
         }
@@ -189,28 +195,270 @@ namespace _06_TomA_Muzikanten_Klasses
         // toevoegen instrument + link lln
         public void ToevDbInstr(Instrument ontvInstr)
         {
+            string naam = ontvInstr._naam;
+            string groep = ontvInstr._groep;
+            List<Leerling> llns = ontvInstr._leerlingen;
+
+            // eerst instrument toevoegen
+            string sql = "INSERT INTO Instrumenten (InstrumentNaam, InstrumentGroep) " +
+                            $"VALUES ('{naam}', '{groep}')";
+
+            OleDbCommand command = new OleDbCommand(sql, _mijnconnectie);
+            _mijnconnectie.Open();
+            command.ExecuteNonQuery();
+
+            // kijk of er een link met leerling moet toegevoegd worden
+            if(llns.Count() != 0)
+            {
+                foreach(Leerling l in llns)
+                {
+                    string sqlLink = "INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                     $"VALUES ({ontvInstr._id}, {l._id})";
+                    OleDbCommand commandLink = new OleDbCommand(sqlLink, _mijnconnectie);
+                    commandLink.ExecuteNonQuery();
+                }
+            }
+
+
+
+            _mijnconnectie.Close();
         }
 
         // aanpassen gegevens 
         // aanpassen leerling en link met inst
         public void AanpDbLln(Leerling ontvLln)
         {
+            int id = ontvLln._id;
+            String voorn = ontvLln._voornaam;
+            String achtern = ontvLln._achternaam;
+            List<Instrument> instrs = ontvLln._instrumenten;
+
+            // eerst leerling toevoegen
+            string sql = $"UPDATE Leerlingen SET Voornaam ='{voorn}', Achternaam = '{achtern}' WHERE Leerling_ID = {id}";
+            OleDbCommand command = new OleDbCommand(sql, _mijnconnectie);
+
+            _mijnconnectie.Open();
+
+            command.ExecuteNonQuery();
+
+            // Haal de oude lijst met instrumementen op
+            List<Instrument> oudeInstrs = InstrVanLln(id);
+
+            // vergelijk de welke instrumenten verwijderd zijn uit de oude lijst 
+            /*
+               foreach (Instrument oudInstr in oudeInstrs)
+             {
+                 if (!instrs.Contains(oudInstr))
+                 {
+                     // Verwijder de link
+                     string sqlVerw = $"DELETE FROM InstrumentLeerlingen WHERE Leerling_ID = {id} AND Instrument_ID = {oudInstr._id}";
+                     OleDbCommand commandVerw = new OleDbCommand(sqlVerw, _mijnconnectie);
+                     commandVerw.ExecuteNonQuery();
+                 }
+             }
+
+              */
+
+            
+            foreach (Instrument i in oudeInstrs)
+            {
+                bool gevonden = false;
+                int  idOudeLijst = i._id;
+
+                foreach (Instrument i2 in instrs)
+                {
+                    int idNieuweLijst = i2._id;
+                    if (idOudeLijst == idNieuweLijst)
+                    {
+                        gevonden = true;
+                        break;
+                    }
+                }
+
+                if(gevonden == false)
+                {
+                    // Verwijder de link
+                    string sqlVerw = $"DELETE FROM InstrumentLeerling WHERE Leerling_ID = {id} AND Instrument_ID = {idOudeLijst}";
+                    OleDbCommand commandVerw = new OleDbCommand(sqlVerw, _mijnconnectie);
+                    commandVerw.ExecuteNonQuery();
+                }
+            }
+
+
+            // vergelijk de welke instrumenten toegevoegd zijn in de nieuwe lijst
+            /*
+               foreach (Instrument nieuwInstr in instrs)
+             {
+                 if (!oudeInstrs.Contains(nieuwInstr))
+                 {
+                     // Verwijder de link
+                     string sqlToev = $"INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                     $"VALUES ({idNieuweLijst}, {id})";
+                     OleDbCommand commandToev = new OleDbCommand(sqlToev, _mijnconnectie);
+                     commandVerw.ExecuteNonQuery();
+                 }
+             }
+
+              */
+            foreach (Instrument nieuwInstr in instrs)
+            {
+                bool gevonden = false;
+                int idNieuweLijst = nieuwInstr._id;
+                foreach (Instrument oudInstr in oudeInstrs)
+                {
+                    int idOudeLijst = oudInstr._id;
+                    if (idNieuweLijst == idOudeLijst)
+                    {
+                        gevonden = true;
+                        break;
+                    }
+                }
+                if (gevonden == false)
+                {
+                    // Voeg de link toe
+                    string sqlToev = $"INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                     $"VALUES ({idNieuweLijst}, {id})";
+                    OleDbCommand commandToev = new OleDbCommand(sqlToev, _mijnconnectie);
+                    commandToev.ExecuteNonQuery();
+                }
+            }
+
+
+            _mijnconnectie.Close();
+
         }
 
         // aanpassen instrument en link met lln
         public void AanpDbInst(Instrument ontvInstr)
         {
+            // haal gegevens op
+            int id = ontvInstr._id;
+            string naam = ontvInstr._naam;
+            string groep = ontvInstr._groep;
+            List<Leerling> llns = ontvInstr._leerlingen;
+
+            // eerst instrument aanpassen
+            string sql = $"UPDATE Instrumenten SET InstrumentNaam ='{naam}', InstrumentGroep = '{groep}' WHERE Instrument_ID = {id}";
+
+            OleDbCommand command = new OleDbCommand(sql, _mijnconnectie);
+            _mijnconnectie.Open();
+            command.ExecuteNonQuery();
+
+            // haal oude lijst met leerlingen op
+            List<Leerling> oudeLlns = LlnVanInstr(id);
+
+            // vergelijk welke leerlingen verwijderd zijn uit de oude lijst
+            /*
+             foreach (Leerling oudLln in oudeLlns)
+             {
+                 if (!llns.Contains(oudLln))
+                 {
+                     // Verwijder de link
+                     string sqlVerw = $"DELETE FROM InstrumentLeerling WHERE Instrument_ID = {id} AND Leerling_ID = {idOudeLijst}";
+                    OleDbCommand commandVerw = new OleDbCommand(sqlVerw, _mijnconnectie);
+                    commandVerw.ExecuteNonQuery();
+                 }
+             }
+             
+             */
+
+
+            foreach (Leerling oudLln in oudeLlns)
+            {
+                bool gevonden = false;
+                int idOudeLijst = oudLln._id;
+                foreach (Leerling l2 in llns)
+                {
+                    int idNieuweLijst = l2._id;
+                    if (idOudeLijst == idNieuweLijst)
+                    {
+                        gevonden = true;
+                        break;
+                    }
+                }
+                if (gevonden == false)
+                {
+                    // Verwijder de link
+                    string sqlVerw = $"DELETE FROM InstrumentLeerling WHERE Instrument_ID = {id} AND Leerling_ID = {idOudeLijst}";
+                    OleDbCommand commandVerw = new OleDbCommand(sqlVerw, _mijnconnectie);
+                    commandVerw.ExecuteNonQuery();
+                }
+
+
+                // vergelijk welke leerlingen toegevoegd zijn in de nieuwe lijst
+                /*
+                 foreach (Leerling lln in llns)
+                 {
+                     if (!oudeLlns.Contains(lln))
+                     {
+                         // Verwijder de link
+                        string sqlToev = $"INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                         $"VALUES ({id}, {idNieuweLijst})";
+                        OleDbCommand commandToev = new OleDbCommand(sqlToev, _mijnconnectie);
+                        commandToev.ExecuteNonQuery();
+                     }
+                 }
+             
+                 */
+
+
+                foreach (Leerling nieuwLln in llns)
+                {
+                    bool gevonden2 = false;
+                    int idNieuweLijst = nieuwLln._id;
+                    foreach (Leerling oudLln2 in oudeLlns)
+                    {
+                        int idOudeLijst2 = oudLln2._id;
+                        if (idNieuweLijst == idOudeLijst2)
+                        {
+                            gevonden2 = true;
+                            break;
+                        }
+                    }
+                    if (gevonden2 == false)
+                    {
+                        // Voeg de link toe
+                        string sqlToev = $"INSERT INTO InstrumentLeerling (Instrument_ID, Leerling_ID) " +
+                                         $"VALUES ({id}, {idNieuweLijst})";
+                        OleDbCommand commandToev = new OleDbCommand(sqlToev, _mijnconnectie);
+                        commandToev.ExecuteNonQuery();
+                    }
+                }
+            }
+
+
+
+
+            _mijnconnectie.Close();
         }
 
         // verwijderen gegevens
         // verwijderen lln 
         public void VerwDbLln(Leerling ontvLln)
         {
+            int id = ontvLln._id;
+
+            string sql = $"DELETE FROM Leerlingen WHERE Leerling_ID = {id}";
+            OleDbCommand command = new OleDbCommand(sql, _mijnconnectie);
+            _mijnconnectie.Open();
+
+            command.ExecuteNonQuery();
+
+            _mijnconnectie.Close();
+
         }
 
         // Verwijderen instrument
         public void VerwDbInst(Instrument ontvInstr)
         {
+            int id = ontvInstr._id;
+            string sql = $"DELETE FROM Instrumenten WHERE Instrument_ID = {id}";
+            OleDbCommand command = new OleDbCommand(sql, _mijnconnectie);
+
+            _mijnconnectie.Open();
+            command.ExecuteNonQuery();
+            _mijnconnectie.Close();
+
         }
 
 
